@@ -3,9 +3,15 @@ var ground, invisibleGround, groundImage;
 
 var cloud, cloudsGroup, cloudImage;
 
-
+var obstacles 
 
 var newImage;
+
+var obstacle1,obstacle2,obstacle3,obstacle4,obstacle5,obstacle6;
+
+var numero;
+
+var score = 0;
 
 function preload(){
   trex_running = loadAnimation("trex1.png","trex3.png","trex4.png");
@@ -14,10 +20,16 @@ function preload(){
   groundImage = loadImage("ground2.png");
   
   cloudImage = loadImage("cloud.png");
- 
+
+  obstacle1 = loadImage ("obstacle1.png");
+  obstacle2 = loadImage ("obstacle2.png");
+  obstacle3 = loadImage ("obstacle3.png");
+  obstacle4 = loadImage ("obstacle4.png");
+  obstacle5 = loadImage ("obstacle5.png");
+  obstacle6 = loadImage ("obstacle6.png");
 }
 
-function setup() {
+function setup() {  
   createCanvas(600, 200);
 
   trex = createSprite(50,160,20,50);
@@ -38,9 +50,12 @@ function setup() {
 }
 
 function draw() {
-  background(180);
-  
-  
+  background("white");
+
+  text("Pontuação: "+score, 500,50);
+
+  score += Math.round(frameCount/120);
+
   if(keyDown("space")&& trex.y >= 100) {
     trex.velocityY = -10;
   }
@@ -55,7 +70,8 @@ function draw() {
   
   //gerar as nuvens
   spawnClouds();
-  
+  spawnObstacles ();
+
   drawSprites();
 }
 
@@ -70,11 +86,37 @@ function spawnClouds() {
     
     
     //atribua tempo de vida à variável
-    cloud.lifetime = 50
+    cloud.lifetime = 200;
     
     //ajuste a profundidade
     cloud.depth = trex.depth
     trex.depth = trex.depth + 1;
     }
+}
+function spawnObstacles() {
+  if (frameCount % 60 === 0) {
+    obstacles = createSprite (400,165,10,40);
+    obstacles.velocityX = -6;
+
+    numero = Math.round (random (1,6));
+
+    switch (numero) {
+      case 1: obstacles.addImage(obstacle1);
+              break
+      case 2: obstacles.addImage(obstacle2);
+              break
+      case 3: obstacles.addImage(obstacle3);
+              break
+      case 4: obstacles.addImage(obstacle4);
+              break
+      case 5: obstacles.addImage(obstacle5);
+              break
+      case 6: obstacles.addImage(obstacle6);
+              break
+    }
+    obstacles.scale = 0.5;
+    obstacles.lifetime = 200;
+  }
+
 }
 
